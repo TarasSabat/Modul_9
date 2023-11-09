@@ -92,6 +92,50 @@
 
 # closure()                             # Викликаємо замикання (замикання можу викликатись в подальших строках)
 
+### 
+
+# def outer(x):
+#     def inner(y):
+#         print(f'{x} + {y} = {x + y}')
+#     return inner
+
+# def main():
+#     adder_two = outer(2)        # присвоюємо змінній функцію з аргументом (аргумент 2 запам'ятовується в просторі імен)
+#     adder_two(8)                 
+
+# print(main())                   # 2 + 8 = 10
+
+''' застосування кешівання з метою збереження ресурсів'''
+
+# def get_cache(cache = None):
+#     if cache is None:
+#         cache = {}
+#     def inner (n):
+#         print(cache)
+#         if n not in cache:
+#             cache[n] = sum([i for i in range(1, n + 1)])
+#             print (f'Hard work: {n}')
+#             return cache[n]
+#         else:
+#             print(f'Easy work: {n}')
+#             return cache[n]
+#     return inner
+
+# def main():
+#     data = {5: 15, 10: 55, 15: 120}
+#     calc = get_cache(data)        
+#     print(calc(5))
+#     print(calc(5))
+#     print(calc(10))
+#     print(calc(10))
+#     print(calc(15))
+#     print(calc(5))
+   
+
+# print(main())
+
+
+
 ''' Каррінг - це перетворення функції від багатьох аргументів на набір функцій,
 кожна з яких є функцією від одного аргументу. Ми можемо передати частину аргументів у функцію
 та отримати назад функцію, чекає на інші аргументи.'''
@@ -117,7 +161,7 @@
 # msg_anton = greeting('Natalia')
 # print(msg_anton('Go to home'))
 
-### розбиваємо одну функцію на дві які приймають по одному параметри
+'''розбиваємо одну функцію на дві які приймають по одному параметри'''
 
 # def taxer_simple(base_tax, money):
 #     if money >= 10000:
@@ -146,6 +190,65 @@
 # print(money_ukr_olga)
 # print(money_ukr_petro)
 # print(money_swd)
+
+###
+''' Carring '''
+# def greeting (mode):
+#     if mode == 'm':
+#         return hello_male
+#     elif mode == 'f':
+#         return hello_famele
+
+# def hello_male(name):
+#     print(f'Mr. {name}')
+
+# def hello_famele(name):
+#     print(f'Mrs. {name}')
+
+# def main():
+#     mr = greeting('m')
+#     mrs = greeting('f')
+
+#     mr('Vlad')
+#     mrs('Olena')
+
+# print(main())
+
+# if __name__ == '__main':
+#     main
+
+''' Carring ''' # (З використанням словника. Дяє можливість розширювати можливості коду без втручання в основну функцію)
+# def hello_male(name):
+#     print(f'Mr. {name}')
+
+# def hello_famele(name):   # створюємо функцію яка буде повертати f-стрінгу 
+#     print(f'Mrs. {name}') 
+
+# def hello_pan(name):      # створюємо функцію яка буде повертати f-стрінгу 
+#     print(f'Пан {name}')
+
+# MODES = {                 # створюємо словник значеннями в якому будуть функції  
+#     'm': hello_male,      # значення в словнику є функція hello_male з ключем 'm'
+#     'f': hello_famele,    # значення в словнику є функція hello_famele з ключем 'а'
+#     'pan': hello_pan      # значення в словнику є функція hello_pan з ключем 'pan'
+# }
+
+# def greeting (mode):      
+#     return MODES[mode]    # функція повертає зі словника функцію яка відповідає переданому ключу 
+
+# def main():                 
+#     mr = greeting('m')    # передаємо в функцію greeting аргумент 'm'   (присвоюємо функцію змінній mr)  
+#     mrs = greeting('f')   # передаємо в функцію greeting аргумент 'f'   (присвоюємо функцію змінній mrs) 
+#     pan = greeting('pan') # передаємо в функцію greeting аргумент 'pan' (присвоюємо функцію змінній pan)
+
+#     mr('Vlad')            # виклик функції чуруз змінну якій присвоєна функція
+#     mrs('Olena')          # виклик функції чуруз змінну якій присвоєна функція
+#     pan('Taras')          # виклик функції чуруз змінну якій присвоєна функція
+
+# print(main())
+
+# if __name__ == '__main':
+#     main
 
 ###
 
@@ -206,7 +309,49 @@
 # full_name('Ivan', 'Melnyk')
 # test_name('Olga', 'test')
 
-# ''' Декоратори з параметрами '''
+''' Декоратор для дебагу (отримуємо інформацію про роботу функції, її результат та час роботи ) '''
+
+# from time import time
+
+# def args_logger(func):
+#     def inner(*args):
+#         if Debug:
+#             print(f'I am args logger. Args: {args}')
+#         result = func(*args)
+#         return result         # повертаємо результат 
+#     return inner              # повертаємо саму функцію inner
+
+# def result_logger(func):
+#     def inner(*args):
+#         result = func(*args)
+#         if Debug:
+#             print(f'I am result logger. Result: {result}')
+#         return result          
+#     return inner               
+
+# def timer(func):
+#     def inner(*args):
+#         start = time()
+#         result = func(*args)
+#         stop = time()
+#         if Debug:
+#             print(f'I am timer. Run time: {stop - start}')
+#         return result          
+#     return inner       
+
+
+# @timer                # огортаємо функцію calc декоратором timer
+# @result_logger       # огортаємо функцію calc декоратором result_logger
+# @args_logger         # огортаємо функцію calc декоратором args_logger
+# def calc(x, y):      # ця функція буде передаватись в args_logger(func) а аргументи будуть передаватись в inner(*args)
+#     result = x + y
+#     return result
+
+# Debug = True         # за допомогою цієї змінної можна відключати Декоратор шляхом зміни між True та False
+
+# print(calc(5, 8))
+
+''' Декоратори з параметрами '''
 
 # def repeat_n_times(n):
 #     def decorator(func):

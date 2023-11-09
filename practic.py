@@ -56,3 +56,13 @@
 #     return x * y
 
 # print(test_func(3, 5))
+
+
+###
+
+# def outer(x):
+#     def inner(y):
+#         print(f'{x} + {y} = {x + y}')
+#     return inner
+
+
