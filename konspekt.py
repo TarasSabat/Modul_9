@@ -407,3 +407,227 @@
 # # wrapper(*args, **kwargs)
 # #
 # # None
+
+''' map - функція яка виконує одну і ту саму дію для всіх елементів іиеруємого об’єкта та повертає новий ітеруємий об’єкт.
+Функція map приймає щонайменше 2 аргументи. Перший - функція, що буде викликатися для всіх елементів ітеруємого об’єкта, а другий - сам ітеруємий об’єкт.'''
+
+# Вам задано рядок символів s. Виведіть суму ASCII значень всіх символів
+# s = input()
+# x = 0
+# for item in s:
+#     x += ord(item)
+# print(x)
+
+### те саме в одну строку за допомогою функції map
+
+# print(sum(map(ord, input())))
+
+''' map + lamda # Потрібно щоб кожне ім'я було з великої літери '''
+
+# names = ["dan", "jane", "steve", "mike"]   
+
+# # 1
+# def normalize(name):
+#     return name.title()
+
+# new_name = []
+# for name in names:
+#     new_name.append(name.title())
+# print(new_name)
+
+# new_name_map = map(normalize, names)
+# print(new_name_map)
+# print(list(new_name_map))
+
+# # 2
+# new_name_map = map(str.title, names)
+# print(list(new_name_map))
+
+# # 3
+# # new_name_map = map(lambda name: name.title(), names)
+# new_name_map = list(map(lambda name: name.title(), names))
+# print(new_name_map)
+
+# # 4
+# new_name_map = [name.title() for name in names]
+# print(new_name_map)
+
+''' map + lambd - перебирання двох колекцій (кількості об'єктів ітерації має дорівнювати кількості аргументів)'''
+
+# list_1 = [1, 2, 3, 4, 5]  # якщо кількості елементів колекції не співпадають то обраобка зупиниться після закінчення елементів меншої колекції
+# list_2 = ['a', 'b', 'c', 'd', 'e']
+
+# for n in map(lambda x, y: f'{y}: {x}', list_1, list_2):
+#     print(n)
+
+''' filter - аналогічна до map функція тільки filter повертає тільки елементи які дають True ''' 
+# простіший приклад фільтра
+
+# print(list(filter(lambda i: i % 2, range(10)))) # виведення непарних чисел від 1 до 9
+
+###
+
+# payment = [100, -3, 400, 35, -100]
+
+# def is_negative_number(num) -> bool:
+#     if num < 0:
+#         return True
+#     return False
+
+# result = filter(is_negative_number, payment)
+# print(list(result))
+
+
+# def is_positive_number(num):
+#     if num > 0:
+#         return True
+#     return False
+
+# result = filter(is_positive_number, payment)
+# print(list(result))
+
+# result = list(filter(lambda num: num > 0, payment))
+# print(result)
+
+# result = list(filter(lambda num: num < 0, payment))
+# print(result)
+
+''' filter. перевірка послідовності на остачу від ділення '''
+
+# data = [1, 2, 3, 4, 5, 6]
+
+# def check_num(data):
+#     result = []
+#     for n in data:
+#         ost = n % 2
+#         if ost:
+#             result.append(n)
+#     return result   
+
+# chech_data = check_num(data)
+# print(*chech_data)
+
+### тес аме через функцію filter
+
+# chech_data_filter = filter(lambda x: x % 2, data)
+# print(*chech_data_filter)
+
+### або
+# print(*filter(lambda x: x % 2, data))
+
+''' map and filter - поєднання двох функцій '''
+
+# # 1
+# nums = [i for i in range(1, 10)]
+# print(nums)
+# sq = map(lambda x: x ** 2, nums)
+
+# result = filter(lambda value: not bool(value % 2), sq)
+# print(list(result))
+
+# # 2
+# result = filter(lambda value: not bool(value % 2), map(lambda x: x ** 2, [i for i in range(1, 10)]))
+# print(list(result))
+
+# # 3
+# result = list(map(lambda x: x ** 2, filter(lambda value: not bool(value % 2), [i for i in range(1, 10)])))
+# print(result)
+
+''' yield - найпростіший генератор (на відміну від return при наступному зверненні не розпочинає виконання з початку а запам'ятовує місце зпинки виконання)'''
+
+# def simple_generator():
+#     yield 'Test'
+#     yield 'Hello'
+#     yield 'world'
+
+# for item in simple_generator():
+#     print(item)                     # Test Hello world
+
+''' генератор за допомогою yield та next'''
+# def my_range(limit):
+#     value = 0
+#     while value < limit:
+#         yield value
+#         value += 1
+
+# gen = my_range(5)
+# # for number in my_range(5):
+# #     print(number)
+
+# while True:
+#     try:
+#         r = next(gen)
+#         print(r)
+#     except StopIteration:
+#         break
+
+''' next (самовстійний виклик через next) '''
+
+# def simple_generator():
+#     yield 'Test'
+#     yield 'Hello'
+#     yield 'world'
+
+# gen = simple_generator()
+# print(gen)
+
+# r_next = next(gen)      
+# print(r_next)  
+# r_next = next(gen)
+# print(r_next)               # при кожному виклику функції виводить одне значення
+# r_next = next(gen)
+# print(r_next)               # при виклику більше ніж є yield буде викликане виключення StopIteration 
+
+''' Лямбда функція (анонімна функція - яка не присвоюється змінній) lambda x, y, z: x * y * z. Використовується для вирішення простих задач '''
+# def pow_normal(x):
+#     return x ** 2
+
+# pow_lambda = lambda x: x ** 2
+
+# print(pow_normal(5))
+# print(pow_lambda(5))
+
+###
+# import math
+
+# def get_length(d):                        # множення на число пі за допомогою звичайної функції
+#     result = d * math.pi
+#     return result
+
+# get_lambda_length = lambda d: d * math.pi # множення на число пі за допомогою лямбда функції (замість 3-х строк зробили в одну)
+    
+# lenght_1 = get_length(10)
+# lenght_2 = get_lambda_length(10)
+# print(lenght_1, lenght_2, sep = '\n' )
+
+### отримання остачі від числа
+
+# def get_ost(data):
+#     result = []
+#     for n in data:
+#         ost = n % 2
+#         result.append(ost)
+#     return result
+
+# data = [1, 2, 3, 4, 5, 6]
+# ost_1 = get_ost(data)
+# print(*ost_1)                       # за допомогою оператора * розпаковується список
+
+# print(*map(lambda n: n % 2, data))  # те саме за допомогою ламбда функції в одну строку
+
+''' reduce - приміняє функцію function до усіх елементів послідовності iterable, зводячи її до єдиного значення '''   
+''' reduce(function, iterable[, initializer]) - func : Функция, яку потрібно застосувати до елементів послідовності. Повинна приймати два аргументи, де перший аргумент — аккумулює попереднє значення, а другий — наступний элемент послідовності.
+iterable : Последовність, элементи якої потрібно звести до єдиного значення. Якщо послідовність пуста і не задано initializer, то виникає TypeError.
+initializer=None: Базове значення, з якого потрібно почати відлік. Воно ж буде повернуто, якщо послідовність пуста (не обов'язково).'''
+
+# from functools import reduce
+
+# def add(x, y):
+#     return x * y
+
+
+# numbers = [2, 3, 4, 5]
+
+# result = reduce(add, numbers)  # (((2*3)*4)*5) = 120
+# # result = reduce(add, numbers, 5) # (((5*2)*3)*4)*5)) = 600
+# print(result)
