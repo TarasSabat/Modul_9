@@ -267,17 +267,58 @@ payment = [100, -3, 400, 35, -100]
 Словник містить ім'я користувача, його email, телефонний номер та властивість - обраний контакт чи ні.
 Створіть функцію get_favorites(contacts), яка повертатиме список, який містить лише обрані контакти. Використовуйте при цьому функцію filter, щоб відфільтрувати по полю favorite лише обрані контакти.
 '''
-contacts = [{
-    "name": "Allen Raymond",
-    "email": "nulla.ante@vestibul.co.uk",
-    "phone": "(992) 914-3792",
-    "favorite": False,
-}]
+# contacts = [{
+#     "name": "Allen Raymond",
+#     "email": "nulla.ante@vestibul.co.uk",
+#     "phone": "(992) 914-3792",
+#     "favorite": False},
+#     {"name": "Allen Raymond",
+#     "email": "nulla.ante@vestibul.co.uk",
+#     "phone": "(992) 914-3792",
+#     "favorite": True,
+# }]
 
-def get_favorites(contacts):
-    contacts_list = list(filter(lambda contact:   n: n > 0, list_payment)) 
+# def get_favorites(contacts):
+#     contacts_list = list(filter(lambda contact: contact.get("favorite", False), contacts)) 
+#     return contacts_list
+
+# print(get_favorites(contacts))
+
+'''№11
+Для списку numbers підрахувати суму елементів за допомогою функції reduce.
+numbers = [3, 4, 6, 9, 34, 12]
+Створіть функцію sum_numbers(numbers), результатом виконання якої буде сума чисел всіх елементів списку numbers.
+'''
+
+# from functools import reduce
 
 
- list(map(lambda contact: contact["email"], list_contacts))
+# def sum_numbers(numbers):
+#     result = reduce(lambda x, y: x + y, numbers)
+#     return result
+
+'''№12
+Повернемося до нашого першого завдання з четвертого модуля і перепишемо його за допомогою функції reduce.
+payment = [1, -3, 4]
+
+def amount_payment(payment):
+    sum = 0
+    for value in payment:
+        if value > 0:
+            sum = sum + value
+    return sum
+Нагадаємо умову. У нас є список показань заборгованостей з комунальних послуг наприкінці місяця. Заборгованості можуть бути від'ємними — у нас переплата, чи додатними, якщо необхідно сплатити за рахунками. За допомогою reduce підсумуйте додатні значення та поверніть з функції amount_payment суму платежу в кінці місяця.
+'''
+# from functools import reduce
 
 
+# def amount_payment(payment):
+#     result_1 = list(filter(lambda x: x > 0, payment))
+#     result_2 = reduce(lambda x, y: x + y, result_1)
+#     return result_2
+
+# print(amount_payment([100, -3, 400, 35, -100]))
+    
+
+                    
+                    
